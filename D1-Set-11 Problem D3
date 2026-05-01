@@ -1,0 +1,16 @@
+db.articles.insertMany([
+  { articleId: 1, title: "Tech News", author: "Asha", category: "Technology", tags: ["AI","ML"], publishDate: "2026-01-01" },
+  { articleId: 2, title: "Health Tips", author: "Rahul", category: "Health", tags: ["Fitness"], publishDate: "2026-01-02" },
+  { articleId: 3, title: "Finance Update", author: "Neha", category: "Finance", tags: ["Stock","Market"], publishDate: "2026-01-03" },
+  { articleId: 4, title: "AI Future", author: "Kiran", category: "Technology", tags: ["AI"], publishDate: "2026-01-04" },
+  { articleId: 5, title: "Yoga Benefits", author: "Priya", category: "Health", tags: ["Yoga"], publishDate: "2026-01-05" }
+]);
+
+db.articles.find({ category: "Technology" });
+
+db.articles.find({ tags: "AI" });
+
+db.articles.updateOne({ articleId: 2 }, { $push: { tags: "Wellness" } });
+
+db.articles.updateMany({ category: "Health" }, { $set: { category: "Lifestyle" } });
+
