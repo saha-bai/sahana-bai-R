@@ -1,0 +1,45 @@
+// Collections: customers, policies, claims
+
+// Insert Customers
+db.customers.insertMany([
+  { customer_id: 1, name: "Asha" },
+  { customer_id: 2, name: "Rahul" }
+]);
+
+// Insert Policies
+db.policies.insertMany([
+  { policy_id: 101, customer_id: 1, policy_type: "Health" },
+  { policy_id: 102, customer_id: 1, policy_type: "Vehicle" },
+  { policy_id: 103, customer_id: 2, policy_type: "Life" }
+]);
+
+// Insert Claims
+db.claims.insertMany([
+  { claim_id: 1, policy_id: 101, claim_amount: 5000, status: "Pending" },
+  { claim_id: 2, policy_id: 101, claim_amount: 8000, status: "Approved" },
+  { claim_id: 3, policy_id: 102, claim_amount: 10000, status: "Pending" },
+  { claim_id: 4, policy_id: 103, claim_amount: 20000, status: "Pending" }
+]);
+
+// Retrieve claims for customer_id = 1
+db.claims.aggregate([
+  {
+    $lookup: {
+      from: "policies",
+      localField: "policy_id",
+      foreignField: "policy_id",
+      as: "policy"
+    }
+  },
+  { $unwind: "$policy" },
+  { $match: { "policy.customer_id": 1 } }
+]);
+
+// Update claim status
+db.claims.updateMany({ status: "Pending" }, { $set: { status: "Approved" } });
+
+// Embedding vs Referencing:
+// Referencing is used here because:
+// - Data is large and grows frequently
+// - Claims are queried separately
+// - Avoid duplication and improve scalability
