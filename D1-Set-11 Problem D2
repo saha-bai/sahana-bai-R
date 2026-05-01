@@ -1,0 +1,15 @@
+db.auctions.insertMany([
+  { auctionId: 1, itemName: "Laptop", startingPrice: 30000, currentBid: 35000, bidders: ["Asha","Rahul"], status: "active" },
+  { auctionId: 2, itemName: "Phone", startingPrice: 15000, currentBid: 18000, bidders: ["Neha"], status: "closed" },
+  { auctionId: 3, itemName: "Watch", startingPrice: 5000, currentBid: 7000, bidders: ["Kiran","Priya"], status: "active" },
+  { auctionId: 4, itemName: "Tablet", startingPrice: 20000, currentBid: 25000, bidders: ["Arjun"], status: "active" },
+  { auctionId: 5, itemName: "Camera", startingPrice: 25000, currentBid: 30000, bidders: ["Dev"], status: "closed" }
+]);
+
+db.auctions.find({ status: "active" });
+
+db.auctions.find({ currentBid: { $gt: 20000 } });
+
+db.auctions.updateOne({ auctionId: 1 }, { $push: { bidders: "NewBidder" } });
+
+db.auctions.updateMany({ status: "active" }, { $inc: { currentBid: 1000 } }
